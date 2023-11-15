@@ -1,0 +1,16 @@
+# Please see git documentation on ignore files for more information:
+# https://git-scm.com/docs/gitignore
+
+# Node modules.
+node_modules
+
+# Environment variables.
+.env
+
+# Development builds and caches.
+build/*
+.cache/*
+
+# Negated entries to force add empty build and cache directories.
+!build/.gitkeep
+!.cache/.gitkeep
