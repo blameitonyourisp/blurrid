@@ -11,7 +11,7 @@
 <!-- If applicable, insert link for web demo of repository in the paragraph below. -->
 This repository is hosted on [github](https://github.com), if you're already reading this there, then great! Otherwise browse the repository [here](https://github.com/blameitonyourisp/blurrid). For a demo of the functionality of this repository, see [here](blurrid.blameitonyourisp.com).
 
-![](https://img.shields.io/github/license/blameitonyourisp/blurrid?style=for-the-badge&labelColor=BAC99C&color=779966) ![](https://img.shields.io/github/package-json/v/blameitonyourisp/blurrid/main?style=for-the-badge&labelColor=BAC99C&color=779966) 
+![](https://img.shields.io/github/license/blameitonyourisp/blurrid?style=for-the-badge&labelColor=191a1a&color=779966) ![](https://img.shields.io/github/package-json/v/blameitonyourisp/blurrid/main?style=for-the-badge&labelColor=191a1a&color=779966) 
 
 ### Table of Contents
 
@@ -32,7 +32,7 @@ This repository is hosted on [github](https://github.com), if you're already rea
 
 Approximate download size of repository, code files within repository, compressed main file, and (just for fun) lines written by the developer including comments etc. Please note that due to file compression, and post download installs/builds such as node module dependencies, the following badges may not exactly reflect download size or space on disk.
 
-![](https://img.shields.io/github/repo-size/blameitonyourisp/blurrid?style=for-the-badge&labelColor=BAC99C&color=779966) ![](https://img.shields.io/github/languages/code-size/blameitonyourisp/blurrid?style=for-the-badge&labelColor=BAC99C&color=779966) ![](https://img.shields.io/bundlephobia/minzip/%40blameitonyourisp/blurrid?style=for-the-badge&labelColor=BAC99C&color=779966) ![](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/blameitonyourisp/js-template/main/dist/tokei.json)
+![](https://img.shields.io/github/repo-size/blameitonyourisp/blurrid?style=for-the-badge&labelColor=191a1a&color=779966) ![](https://img.shields.io/github/languages/code-size/blameitonyourisp/blurrid?style=for-the-badge&labelColor=191a1a&color=779966) ![](https://img.shields.io/bundlephobia/minzip/%40blameitonyourisp/blurrid?style=for-the-badge&labelColor=191a1a&color=779966) ![](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/blameitonyourisp/js-template/main/dist/tokei.json)
 
 ## Description
 
