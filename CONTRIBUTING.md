@@ -62,7 +62,7 @@ Please note that this repository is maintained primarily by a solo developer. As
 
 ## Issues
 
-If you encounter an issue whilst using this repository or any software released by it, please submit an issue using the [issue tracker for this repository](https://github.com/blameitonyourisp/js-template/issues). Issues for this repository are tracked using the default [github](https://github.com) issue tracker ([see here](https://docs.github.com/en/issues/tracking-your-work-with-issues) for more information on managing repository issues on [github](https://github.com)).
+If you encounter an issue whilst using this repository or any software released by it, please submit an issue using the [issue tracker for this repository](https://github.com/blameitonyourisp/blurrid/issues). Issues for this repository are tracked using the default [github](https://github.com) issue tracker ([see here](https://docs.github.com/en/issues/tracking-your-work-with-issues) for more information on managing repository issues on [github](https://github.com)).
 
 ## Git
 

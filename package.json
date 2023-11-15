@@ -1,18 +1,20 @@
 {
-    "name": "@blameitonyourisp/js-template",
+    "name": "@blameitonyourisp/blurrid",
     "version": "0.0.1",
-    "description": "Template repository for general javascript projects.",
+    "description": "Generate and render blurred placeholders for lazy loaded images.",
     "keywords": [
-        "template",
-        "javascript"
+        "lazy-loading",
+        "image-optimization",
+        "dct",
+        "image-blur"
     ],
-    "homepage": "https://github.com/blameitonyourisp/js-template#readme",
+    "homepage": "https://github.com/blameitonyourisp/blurrid#readme",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/blameitonyourisp/js-template.git"
+        "url": "git+https://github.com/blameitonyourisp/blurrid.git"
     },
     "bugs": {
-        "url": "https://github.com/blameitonyourisp/js-template/issues"
+        "url": "https://github.com/blameitonyourisp/blurrid/issues"
     },
     "author": "James Reid",
     "license": "MIT",
