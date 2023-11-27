@@ -9,7 +9,6 @@
 //      - <https://spdx.org/licenses/MIT>
 
 /**
- * @ignore
  * @file Functions for decorating cli strings.
  * @author James Reid
  */
