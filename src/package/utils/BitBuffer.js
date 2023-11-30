@@ -387,7 +387,7 @@ class BitBuffer {
     /**
      * Convert buffer to string with parity characters.
      *
-     * @param {string} secret -
+     * @param {string} secret -\
      * @returns {Promise.<string>} Serialized buffer.
      */
     async toString(secret = "") {
@@ -570,50 +570,6 @@ class BitBuffer {
     }
 
     /**
-     * Round and clamp integer between 0 and maximum allowable integer (max
-     * 32-bit integer, or maximum n-bit integer where n is the number of
-     * unwritten bits remaining in the buffer) to prevent overflow.
-     *
-     * @param {number} int - Requested integer.
-     * @param {number} offset - Operation offset in buffer.
-     * @returns {number} Clamped integer.
-     */
-    #clampInt(int, offset) {
-        // Round input.
-        int = Math.round(int)
-
-        // Determine maximum allowable integer based on bits remaining.
-        const bitsRemaining = this.bitLength - offset
-        const maxInt = bitsRemaining < 32
-            ? (2 << bitsRemaining) - 1 >>> 0
-            : BitBuffer.#MAX_INT
-
-        return Math.max(BitBuffer.#MIN_INT, Math.min(int, maxInt))
-    }
-
-    /**
-     * Clamp buffer offset between 0 and 32 bits, or maximum bits remaining in
-     * buffer (whichever is less) to prevent overflow.
-     *
-     * @param {number} size - Requested size.
-     * @param {number} offset - Operation offset in buffer.
-     * @returns {number} Clamped size.
-     */
-    #clampSize(size, offset) {
-        return Math.max(0, Math.min(size, this.bitLength - offset, 32))
-    }
-
-    /**
-     * Clamp buffer offset between 0 and buffer length to prevent overflow.
-     *
-     * @param {number} offset - Requested offset.
-     * @returns {number} Clamped offset.
-     */
-    #clampOffset(offset) {
-        return Math.max(0, Math.min(offset, this.bitLength - 1))
-    }
-
-    /**
      *
      * @param {*} size
      * @param {*} offset
@@ -710,25 +666,6 @@ class BitBuffer {
      */
     static #bitLength(value) {
         return Math.abs(value).toString(2).length
-    }
-
-    /**
-     * Get minimum allowable unsigned integer in bit buffer, which is 0.
-     *
-     * @returns {number} Minimum allowable unsigned integer in bit buffer.
-     */
-    static get #MIN_INT() {
-        return 0
-    }
-
-    /**
-     * Get maximum allowable unsigned integer in bit buffer, which corresponds
-     * to the maximum possible 32-bit unsigned positive integer.
-     *
-     * @returns {number} Maximum allowable unsigned integer in bit buffer.
-     */
-    static get #MAX_INT() {
-        return 4294967295 // 2 ** 32 - 1
     }
 
     /**
