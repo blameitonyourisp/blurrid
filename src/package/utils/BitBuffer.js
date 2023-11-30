@@ -15,14 +15,10 @@
 
 // @ts-check
 
-// @@imports-node
-import crypto from "crypto"
-
 // @@imports-module
 import { DecoratedError } from "./decorate-cli.js"
 
-// add pointer setters
-// remove hash
+// add pointer setters\
 
 // @@body
 /**
@@ -42,7 +38,7 @@ class BitBuffer {
      */
     constructor({
         length = 16,
-        size = Math.floor(length * 6 / 8) - 3, // 3 bytes reserved for hash.
+        size = Math.floor(length * 6 / 8),
         buffer = new ArrayBuffer(size)
     } = {}) {
         // Assign internal array buffer for implementation of bit buffer.
@@ -387,10 +383,9 @@ class BitBuffer {
     /**
      * Convert buffer to string with parity characters.
      *
-     * @param {string} secret -\
-     * @returns {Promise.<string>} Serialized buffer.
+     * @returns {string} Serialized buffer.
      */
-    async toString(secret = "") {
+    toString() {
         let string = ""
         let pointer = 0
         let uint24 = 0
@@ -405,28 +400,7 @@ class BitBuffer {
             }
         }
 
-        // Append parity characters.
-        string += await this.hash(secret)
-
         return string
-    }
-
-    /**
-     *
-     * @param {string} secret
-     * @returns {Promise.<string>}
-     */
-    async hash(secret = "") { // up to 128 utf-16 char string
-        const size = Math.ceil(this.byteLength / 3) * 3 + secret.length
-        const buffer = this.copy({
-            target: new BitBuffer({ size }),
-            targetStart: secret.length * 8
-        })
-        buffer.writeString(secret)
-        const hash = await crypto.subtle.digest("sha-256", buffer.buffer)
-        const view = new Uint8Array(hash)
-        const uint24 = view[0] << 16 | view[1] << 8 | view[2]
-        return BitBuffer.#uint24ToB64(uint24)
     }
 
     /**
@@ -604,20 +578,15 @@ class BitBuffer {
      *
      * @param {string} string
      */
-    static async from(string, secret = "") {
+    static from(string) {
         if (!string.match(/^[A-Za-z0-9\-_]*$/)) {
             // throw BitBuffer.#StringError(string, "INSTANCE")
         }
-        const hash = string.slice(string.length - 4)
-        string = string.slice(0, string.length - 4)
         const buffer = new BitBuffer({ size: Math.ceil(string.length * 3 / 4) })
         const regex = /[A-Za-z0-9\-_]{1,4}/g
         for (const match of string.match(regex) || []) {
             const uint24 = BitBuffer.#b64ToUint24(match.padEnd(4, "A"))
             buffer.write(uint24, { size: 24 })
-        }
-        if (await buffer.hash(secret) !== hash) {
-            throw new Error()
         }
         buffer.writePointer = 0
         buffer.readPointer = 0
