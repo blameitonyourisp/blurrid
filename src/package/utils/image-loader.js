@@ -20,13 +20,17 @@ import sharp from "sharp"
 
 // @@body
 /**
+ * Load image from file, returning buffer of flat, 3-channel rgb pixel data, and
+ * metadata pertaining to the image.
  *
- * @param {string} path
- * @param {number} size
- * @returns {Promise.<{image:Buffer, metadata:sharp.Metadata}>}
+ * @param {string} path - Relative path to image from point of execution.
+ * @param {number} size - Maximum dimension of image in any direction.
+ * @returns {Promise.<{image:Buffer, metadata:sharp.Metadata}>} Data buffer and
+ *      image metadata.
  */
 const loadImage = async (path, size) => {
-    const sharpInstance = await sharp(path)
+    // Load and resize image to fit largest dimension within size given.
+    const sharpInstance = sharp(path)
     const image = await sharpInstance
         .removeAlpha()
         .resize(size, size, { fit: "inside" })
@@ -38,15 +42,18 @@ const loadImage = async (path, size) => {
 }
 
 /**
+ * Save flat array of 3-channel rgb pixel data to image file.
  *
- * @param {number[]} data
- * @param {string} path
- * @param {number} width
- * @param {number} height
- * @param {number} channels
- * @returns {Promise.<sharp.OutputInfo>}
+ * @param {number[]} data - Image pixel data in flat array.
+ * @param {string} path - Relative path of new image from point of execution.
+ * @param {number} width - Width of destination image.
+ * @param {number} height - Height of destination image.
+ * @param {object} obj - Configuration object of optional arguments.
+ * @param {number} [obj.channels] - Number of channels in output image.
+ * @returns {Promise.<sharp.OutputInfo>} Sharp output details.
  */
-const saveImage = (data, path, width, height, channels = 4) => {
+const saveImage = (data, path, width, height, { channels = 3 } = {}) => {
+    // Generate buffer from image data, and configure sharp instance options.
     const buffer = Buffer.from(data)
     const options = /** @type {sharp.SharpOptions} */ ({
         raw: { width, height, channels }
