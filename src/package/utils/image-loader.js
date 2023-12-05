@@ -28,7 +28,7 @@ import sharp from "sharp"
 const loadImage = async (path, size) => {
     const sharpInstance = await sharp(path)
     const image = await sharpInstance
-        .ensureAlpha()
+        .removeAlpha()
         .resize(size, size, { fit: "inside" })
         .raw()
         .toBuffer()
