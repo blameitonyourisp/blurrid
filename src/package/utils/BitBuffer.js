@@ -18,14 +18,18 @@
 // @@imports-module
 import { DecoratedError } from "./decorate-cli.js"
 
-// add pointer setters\
-
 // @@body
 /**
  * Buffer class allowing control over an appropriately sized array buffer at the
  * bit level rather than at the byte level.
  */
 class BitBuffer {
+    #buffer
+    #readPointer
+    #lastReadSize
+    #writePointer
+    #lastWriteSize
+
     /**
      * Configure internal buffer property and required pointers.
      *
@@ -42,15 +46,15 @@ class BitBuffer {
         buffer = new ArrayBuffer(size)
     } = {}) {
         // Assign internal array buffer for implementation of bit buffer.
-        this.buffer = buffer
+        this.#buffer = buffer
 
         // Assign internal read pointers.
-        this.readPointer = 0
-        this.lastReadSize = 0
+        this.#readPointer = 0
+        this.#lastReadSize = 0
 
         // Assign internal write pointers.
-        this.writePointer = 0
-        this.lastWriteSize = 0
+        this.#writePointer = 0
+        this.#lastWriteSize = 0
     }
 
     /**
@@ -66,7 +70,7 @@ class BitBuffer {
      */
     write(int, {
         size = BitBuffer.#bitLength(int),
-        offset = this.writePointer,
+        offset = this.#writePointer,
         signed = false
     } = {}) {
         // If all values are not writeable due to insufficient bits remaining
@@ -90,7 +94,7 @@ class BitBuffer {
      * @param {boolean} [obj.signed] - Write signed or unsigned integer.
      * @returns {number} Integer written to buffer.
      */
-    writeAbsolute(int, { offset = this.writePointer, signed = false } = {}) {
+    writeAbsolute(int, { offset = this.#writePointer, signed = false } = {}) {
         // Size declaration data with the size of buffer segment it will occupy.
         const resize = { value: BitBuffer.#bitLength(int), size: 5 }
 
@@ -121,13 +125,13 @@ class BitBuffer {
      * @param {boolean} [obj.signed] - Write signed or unsigned integer.
      * @returns {number} Integer written to buffer.
      */
-    writeRelative(int, { offset = this.writePointer, signed = false } = {}) {
+    writeRelative(int, { offset = this.#writePointer, signed = false } = {}) {
         // Write relative method relies on the first bit of the written integer
         // being "1", and therefore cannot write integer "0".
         if (int === 0) { int = 1 }
 
         // Size declaration data with the size of buffer segment it will occupy.
-        const relativeSize = BitBuffer.#bitLength(int) - this.lastWriteSize
+        const relativeSize = BitBuffer.#bitLength(int) - this.#lastWriteSize
         const resize = {
             // If increasing size, write a 1 bit shifted by the amount of bits
             // the data is bigger by, otherwise write a 0. Preserve required
@@ -158,7 +162,7 @@ class BitBuffer {
      * @param {number} [obj.offset] - Offset of segment within buffer in bits.
      * @returns {string} String written to buffer.
      */
-    writeString(string, { offset = this.writePointer } = {}) {
+    writeString(string, { offset = this.#writePointer } = {}) {
         // Size declaration data for bit length of length of string declaration.
         const resize = {
             value: BitBuffer.#bitLength(string.length),
@@ -195,7 +199,7 @@ class BitBuffer {
      * @param {boolean} [obj.signed] - Read signed or unsigned integer.
      * @returns {number} Integer read from buffer.
      */
-    read(size, { offset = this.readPointer, signed = false } = {}) {
+    read(size, { offset = this.#readPointer, signed = false } = {}) {
         // If all values are not readable due to insufficient bits remaining
         // etc., then return no number.
         const readable = this.#readable().append(size, { offset, signed })
@@ -216,10 +220,10 @@ class BitBuffer {
      * @param {boolean} [obj.signed] - Read signed or unsigned integer.
      * @returns {number} Integer read from buffer.
      */
-    readAbsolute({ offset = this.readPointer, signed = false } = {}) {
+    readAbsolute({ offset = this.#readPointer, signed = false } = {}) {
         // Record read pointers for resetting if required.
-        const readPointer = this.readPointer
-        const lastReadSize = this.lastReadSize
+        const readPointer = this.#readPointer
+        const lastReadSize = this.#lastReadSize
 
         // Check if sufficient read bits remain to read both the size
         // declaration and integer.
@@ -233,8 +237,8 @@ class BitBuffer {
         // Reset pointers and return no number if insufficient remaining read
         // bits.
         if (!readable.isReadable || !size) {
-            this.readPointer = readPointer
-            this.lastReadSize = lastReadSize
+            this.#readPointer = readPointer
+            this.#lastReadSize = lastReadSize
             return NaN
         }
 
@@ -254,10 +258,10 @@ class BitBuffer {
      * @param {boolean} [obj.signed] - Read signed or unsigned integer.
      * @returns {number} Integer read from buffer.
      */
-    readRelative({ offset = this.readPointer, signed = false } = {}) {
+    readRelative({ offset = this.#readPointer, signed = false } = {}) {
         // Record read pointers for resetting if required.
-        const readPointer = this.readPointer
-        const lastReadSize = this.lastReadSize
+        const readPointer = this.#readPointer
+        const lastReadSize = this.#lastReadSize
 
         // Get sign of relative size (i.e. are more or less bits to be read than
         // last read call).
@@ -280,14 +284,14 @@ class BitBuffer {
         // Reset pointers and return no number if insufficient remaining read
         // bits.
         if (!readable.isReadable || !size) {
-            this.readPointer = readPointer
-            this.lastReadSize = lastReadSize
+            this.#readPointer = readPointer
+            this.#lastReadSize = lastReadSize
             return NaN
         }
 
         // Decrement read pointer to account for first bit of integer having
         // been read above.
-        this.readPointer--
+        this.#readPointer--
 
         return this.#read(size, { signed })
     }
@@ -299,10 +303,10 @@ class BitBuffer {
      * @param {number} [obj.offset] - Offset of segment within buffer in bits.
      * @returns {string} String read from buffer.
      */
-    readString({ offset = this.readPointer } = {}) {
+    readString({ offset = this.#readPointer } = {}) {
         // Record read pointers for resetting if required.
-        const readPointer = this.readPointer
-        const lastReadSize = this.lastReadSize
+        const readPointer = this.#readPointer
+        const lastReadSize = this.#lastReadSize
 
         // Get bit size of string length declaration.
         const readable = this.#readable().append(5, { offset })
@@ -317,8 +321,8 @@ class BitBuffer {
         // Reset pointers and return no number if insufficient remaining read
         // bits.
         if (!readable.isReadable || !length) {
-            this.readPointer = readPointer
-            this.lastReadSize = lastReadSize
+            this.#readPointer = readPointer
+            this.#lastReadSize = lastReadSize
             return ""
         }
 
@@ -330,8 +334,8 @@ class BitBuffer {
             // Reset pointers and return no number if insufficient remaining
             // read bits.
             if (!readable.isReadable) {
-                this.readPointer = readPointer
-                this.lastReadSize = lastReadSize
+                this.#readPointer = readPointer
+                this.#lastReadSize = lastReadSize
                 return ""
             }
 
@@ -342,54 +346,82 @@ class BitBuffer {
         return string
     }
 
-    // change copy to use strict errors on read/write
-    // add update write pointer option or sync copy and write pointers
     /**
+     * Copy data from source buffer (current buffer instance) to a target buffer
+     * passed in the arguments. If no target buffer passed, new BitBuffer
+     * instantiated with a length based on number of copied bits. Will update
+     * read/write pointers in both source and target buffers.
      *
-     * @param {*} param0 - Configuration object argument.
-     * @returns {BitBuffer}
+     * @param {object} obj - Configuration object of optional arguments.
+     * @param {BitBuffer} [obj.target] - Target buffer to copy to.
+     * @param {number} [obj.targetStart] - Start bit in target buffer.
+     * @param {number} [obj.sourceStart] - Start bit in source buffer.
+     * @param {number} [obj.sourceEnd] - End bit in source buffer.
+     * @returns {BitBuffer} Target buffer with data copied from source buffer.
      */
     copy({
-        target = null,
-        targetStart = target.writePointer || 0,
+        target,
+        targetStart = target?.writePointer || 0,
         sourceStart = 0,
-        sourceEnd = this.bitLength,
-        sync = true
+        sourceEnd = this.bitLength
     } = {}) {
-        const sourceBits = sourceEnd - sourceStart
-        const targetBits = target ? target.bitLength - targetStart : Infinity
-
-        //
+        // Throw error if source start or end bounds are out of buffer range.
         if (sourceStart < 0 || sourceEnd > this.bitLength) {
-            // const index = sourceStart < 0 ? sourceStart : sourceEnd
-            // throw new BitBuffer.#RangeError(index, this.buffer)
+            throw new DecoratedError({
+                name: "BitBufferError",
+                message: "Requested bits out of source buffer range",
+                "source-start": sourceStart,
+                "source-end": sourceEnd,
+                "source-bit-length": this.bitLength
+            })
         }
+
+        // Get number of source bits, and minimum size of target buffer in bytes
+        // to store the data from the source buffer.
+        const sourceBits = sourceEnd - sourceStart
+        const targetSize = Math.ceil((sourceBits + targetStart) / 8)
+
+        // Get available write bits in target buffer, instantiating a bit buffer
+        // of the correct size if none is passed in arguments.
+        target ??= new BitBuffer({ size: targetSize })
+        const targetBits = target.bitLength - targetStart
+
+        // Throw error if not sufficient bits remaining in target buffer.
         if (sourceBits > targetBits) {
-            // const index = target.bitLength + 1
-            // throw new BitBuffer.#RangeError(index, target.buffer)
+            throw new DecoratedError({
+                name: "BitBufferError",
+                message: "Source bits exceed bits available in target buffer",
+                "source-bits": sourceBits,
+                "target-bits": targetBits
+            })
         }
 
-        target ??= new BitBuffer({
-            size: Math.ceil((sourceBits + targetStart) / 8)
-        })
-
+        // Copy data bits from source buffer to target buffer.
         for (let i = 0; i < sourceBits; i++) {
-            target.write(this.read(1, sourceStart + i), { size: 1, offset: targetStart + i }) // @no-wrap
+            target.write(
+                this.#read(1, { offset: sourceStart + i }),
+                { size: 1, offset: targetStart + i }
+            )
         }
-        if (sync) { target.writePointer = targetStart + sourceBits }
+
         return target
     }
 
     /**
-     * Convert buffer to string with parity characters.
+     * Convert buffer to serialized string of base-64 url-safe characters.
      *
-     * @returns {string} Serialized buffer.
+     * @returns {string} Serialized buffer string.
      */
     toString() {
+        // Initialize serialized string and pointers to track string fragments.
         let string = ""
         let pointer = 0
         let uint24 = 0
-        const view = new Uint8Array(this.buffer)
+
+        // Loop over buffer, adding 4 character fragments to serialized string
+        // for every 24 bits consumed from buffer (24-bit blocks consumed in
+        // 3-byte blocks at time).
+        const view = new Uint8Array(this.#buffer)
         for (let i = 0; i < Math.ceil(this.byteLength / 3) * 3; i++) {
             const byte = view[i] || 0
             uint24 = (uint24 | (byte << 16 - pointer * 8)) >>> 0
@@ -404,12 +436,21 @@ class BitBuffer {
     }
 
     /**
-     *
+     * Create object containing
      */
     #writeable() {
-        const tracer = { writeable: true, offset: this.writePointer }
+        const tracer = { writeable: true, offset: this.#writePointer }
 
-        const append = (/** @type {number} */ int, {
+        /**
+         * 
+         * @param {number} int 
+         * @param {object} obj
+         * @param {number} [obj.size]
+         * @param {number} [obj.offset]
+         * @param {boolean} [obj.signed] 
+         * @returns 
+         */
+        const append = (int, {
             size = BitBuffer.#bitLength(int),
             offset = tracer.offset,
             signed = false
@@ -450,7 +491,7 @@ class BitBuffer {
      */
     #write(int, {
         size = BitBuffer.#bitLength(int),
-        offset = this.writePointer,
+        offset = this.#writePointer,
         signed = false
     } = {}) {
         // Get absolute value of integer to write.
@@ -477,12 +518,12 @@ class BitBuffer {
         // to end at the first non-zero bit (i.e. the start of the number),
         // rather than requiring an extra "1" end bit if the "1"/"0" sign bit
         // was written at the start of the number.
-        this.writePointer = offset + size
+        this.#writePointer = offset + size
         if (signed) { this.#write(int >= 0 ? 1 : 0, { size: 1 }) }
 
         // Update last write size *after* sign bit such that the sign bit is
         // *not* considered as the last integer size written.
-        this.lastWriteSize = size
+        this.#lastWriteSize = size
 
         return int
     }
@@ -491,7 +532,7 @@ class BitBuffer {
      *
      */
     #readable() {
-        const tracer = { readable: true, offset: this.readPointer }
+        const tracer = { readable: true, offset: this.#readPointer }
 
         const append = (/** @type {number} */ size, {
             offset = tracer.offset,
@@ -525,7 +566,7 @@ class BitBuffer {
      * @param {boolean} [obj.signed] - Read signed or unsigned integer.
      * @returns {number} Integer read from buffer.
      */
-    #read(size, { offset = this.readPointer, signed = false } = {}) {
+    #read(size, { offset = this.#readPointer, signed = false } = {}) {
         const { view, byteLength, subBit } = this.#getView(size, offset)
         let uint32 = 0
         for (let i = 0; i < byteLength; i++) {
@@ -535,10 +576,10 @@ class BitBuffer {
                 : (uint32 | view.getUint8(i) >>> - offset) >>> 0
         }
 
-        this.readPointer = offset + size
+        this.#readPointer = offset + size
         const sign = signed && this.#read(1) === 0 ? - 1 : 1
 
-        this.lastReadSize = size
+        this.#lastReadSize = size
 
         return sign * (uint32 >>> 32 - size)
     }
@@ -547,7 +588,8 @@ class BitBuffer {
      *
      * @param {*} size
      * @param {*} offset
-     * @returns
+     * @returns {{view:DataView,byteLength:number,subBit:number}} Object
+     *      containing requested dataview of bit buffer at the given offset.
      */
     #getView(size, offset) {
         const startByte = Math.floor(offset / 8)
@@ -556,7 +598,7 @@ class BitBuffer {
         if (startByte + byteLength > this.byteLength) {
             // throw new BitBuffer.#RangeError(size, offset)
         }
-        const view = new DataView(this.buffer, startByte, byteLength)
+        const view = new DataView(this.#buffer, startByte, byteLength)
         return { view, byteLength, subBit }
     }
 
@@ -572,7 +614,91 @@ class BitBuffer {
      *
      * @returns {number} Byte length of buffer.
      */
-    get byteLength() { return this.buffer.byteLength }
+    get byteLength() { return this.#buffer.byteLength }
+
+    /**
+     * Get current read pointer.
+     *
+     * @returns {number} Internal read pointer.
+     */
+    get readPointer() { return this.#readPointer }
+
+    /**
+     * Safely set current read pointer, observing bit size of buffer.
+     *
+     * @param {number} pointer - Updated read pointer.
+     * @returns {void}
+     */
+    set readPointer(pointer) {
+        // Ignore updated pointer if it is out of range.
+        if (pointer < 0 || pointer > this.bitLength ) { return }
+
+        // Update internal pointer.
+        this.#readPointer = pointer
+    }
+
+    /**
+     * Get last read size in bits.
+     *
+     * @returns {number} Internal last read size in bits.
+     */
+    get lastReadSize() { return this.#lastReadSize }
+
+    /**
+     * Safely set last read size, observing max and min integer bit sizes.
+     *
+     * @param {number} size - Updated last read size in bits.
+     * @returns {void}
+     */
+    set lastReadSize(size) {
+        // Ignore updated size if not within max and min integer bit sizes.
+        if (size < 0 || size > 32 ) { return }
+
+        // Update internal read size.
+        this.#lastReadSize = size
+    }
+
+    /**
+     * Get current write pointer.
+     *
+     * @returns {number} Internal write pointer.
+     */
+    get writePointer() { return this.#writePointer }
+
+    /**
+     * Safely set current write pointer, observing bit size of buffer.
+     *
+     * @param {number} pointer - Updated write pointer.
+     * @returns {void}
+     */
+    set writePointer(pointer) {
+        // Ignore updated pointer if it is out of range.
+        if (pointer < 0 || pointer > this.bitLength ) { return }
+
+        // Update internal pointer.
+        this.#writePointer = pointer
+    }
+
+    /**
+     * Get last write size in bits.
+     *
+     * @returns {number} Internal last write size in bits.
+     */
+    get lastWriteSize() { return this.#lastWriteSize }
+
+    /**
+     * Safely set last write size, observing max and min integer bit sizes.
+     *
+     * @param {number} size - Updated last write size in bits.
+     * @returns {void}
+     */
+    set lastWriteSize(size) {
+        // Ignore updated size if not within max and min integer bit sizes.
+        if (size < 0 || size > 32 ) { return }
+
+        // Update internal write size.
+        this.#lastWriteSize = size
+    }
 
     /**
      *
@@ -633,9 +759,7 @@ class BitBuffer {
      * @param {number} value - Input number.
      * @returns {number} Bit length.
      */
-    static #bitLength(value) {
-        return Math.abs(value).toString(2).length
-    }
+    static #bitLength(value) { return Math.abs(value).toString(2).length }
 
     /**
      * Get url-safe base64 character dictionary, which uses different padding
