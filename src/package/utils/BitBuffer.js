@@ -694,32 +694,47 @@ class BitBuffer {
      */
     set lastWriteSize(size) {
         // Ignore updated size if not within max and min integer bit sizes.
-        if (size < 0 || size > 32 ) { return }
+        if (size < 0 || size > 32) { return }
 
         // Update internal write size.
         this.#lastWriteSize = size
     }
 
     /**
+     * Decode serialized url-safe base 64 BitBuffer string, returning a new
+     * BitBuffer instance containing the data from the original serialized
+     * buffer.
      *
-     * @param {string} string
+     * @param {string} string - Url-safe base 64 encoded BitBuffer string.
+     * @returns {BitBuffer} Decoded BitBuffer instance.
      */
     static from(string) {
+        //
         if (!string.match(/^[A-Za-z0-9\-_]*$/)) {
-            // throw BitBuffer.#StringError(string, "INSTANCE")
+            throw new DecoratedError({
+                name: "BitBufferError",
+                message: "Encoded string is not url-safe base 64 encoded",
+                "encoded-string": string
+            })
         }
+
+        //
         const buffer = new BitBuffer({ size: Math.ceil(string.length * 3 / 4) })
         const regex = /[A-Za-z0-9\-_]{1,4}/g
         for (const match of string.match(regex) || []) {
             const uint24 = BitBuffer.#b64ToUint24(match.padEnd(4, "A"))
             buffer.write(uint24, { size: 24 })
         }
+
+        // Reset read and write pointers.
         buffer.writePointer = 0
         buffer.readPointer = 0
+
         return buffer
     }
 
     /**
+     * Convert 4 character url-safe base 64 string to 24-bit unsigned integer.
      *
      * @param {string} string - 4 character url-safe base 64 string.
      * @returns {number} Unsigned 24 bit integer.
