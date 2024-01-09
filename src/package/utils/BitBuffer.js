@@ -36,7 +36,7 @@ class BitBuffer {
      * @param {object} obj - Configuration object argument.
      * @param {number} [obj.length] - Maximum character length of buffer when
      *      converted to url-safe base64 string.
-     * @param {number} [obj.size] - Size of bit buffer in *bytes*. Defaults to
+     * @param {number} [obj.size] - Size of BitBuffer in *bytes*. Defaults to
      *      maximum allowable size as specified by the character length value.
      * @param {ArrayBuffer} [obj.buffer] - Internal array buffer.
      */
@@ -45,7 +45,7 @@ class BitBuffer {
         size = Math.floor(length * 6 / 8),
         buffer = new ArrayBuffer(size)
     } = {}) {
-        // Assign internal array buffer for implementation of bit buffer.
+        // Assign internal array buffer for implementation of BitBuffer.
         this.#buffer = buffer
 
         // Assign internal read pointers.
@@ -381,7 +381,7 @@ class BitBuffer {
         const sourceBits = sourceEnd - sourceStart
         const targetSize = Math.ceil((sourceBits + targetStart) / 8)
 
-        // Get available write bits in target buffer, instantiating a bit buffer
+        // Get available write bits in target buffer, instantiating a BitBuffer
         // of the correct size if none is passed in arguments.
         target ??= new BitBuffer({ size: targetSize })
         const targetBits = target.bitLength - targetStart
@@ -439,16 +439,16 @@ class BitBuffer {
      * Create object containing
      */
     #writeable() {
+        // 
         const tracer = { writeable: true, offset: this.#writePointer }
 
         /**
-         * 
-         * @param {number} int 
+         *
+         * @param {number} int
          * @param {object} obj
          * @param {number} [obj.size]
          * @param {number} [obj.offset]
-         * @param {boolean} [obj.signed] 
-         * @returns 
+         * @param {boolean} [obj.signed]
          */
         const append = (int, {
             size = BitBuffer.#bitLength(int),
@@ -589,7 +589,7 @@ class BitBuffer {
      * @param {*} size
      * @param {*} offset
      * @returns {{view:DataView,byteLength:number,subBit:number}} Object
-     *      containing requested dataview of bit buffer at the given offset.
+     *      containing requested dataview of BitBuffer at the given offset.
      */
     #getView(size, offset) {
         const startByte = Math.floor(offset / 8)
@@ -742,7 +742,10 @@ class BitBuffer {
     static #b64ToUint24(string) {
         let uint24 = 0
 
-        //
+        // Loop over characters of input string, converting each url-safe base
+        // 64 character to a 6-bit integer. Bitwise SHIFT the result such that
+        // the 6 data bits occupy a unique sector of the uint24 output, and
+        // bitwise AND the result with the uint24 output.
         for (const [index, char] of string.split("").entries()) {
             const uint6 = BitBuffer.#dict.indexOf(char)
             uint24 = (uint24 | (uint6 << 18 - index * 6)) >>> 0
@@ -752,6 +755,7 @@ class BitBuffer {
     }
 
     /**
+     * Convert 24-bit unsigned integer to 4 character url-safe base 64 string.
      *
      * @param {number} uint24 - Unsigned 24 bit integer.
      * @returns {string} 4 character url-safe base 64 string.
@@ -759,7 +763,8 @@ class BitBuffer {
     static #uint24ToB64(uint24) {
         let string = ""
 
-        //
+        // Divide 24-bit integer into 6-bit segments, appending a url-safe base
+        // 64 character to output string for each segment.
         for (let i = 0; i < 4; i++) {
             const uint6 = uint24 >>> 18 - i * 6 << 26 >>> 26
             string += BitBuffer.#dict[uint6]
