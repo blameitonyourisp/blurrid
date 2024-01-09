@@ -631,7 +631,7 @@ class BitBuffer {
      */
     set readPointer(pointer) {
         // Ignore updated pointer if it is out of range.
-        if (pointer < 0 || pointer > this.bitLength ) { return }
+        if (pointer < 0 || pointer > this.bitLength) { return }
 
         // Update internal pointer.
         this.#readPointer = pointer
@@ -652,7 +652,7 @@ class BitBuffer {
      */
     set lastReadSize(size) {
         // Ignore updated size if not within max and min integer bit sizes.
-        if (size < 0 || size > 32 ) { return }
+        if (size < 0 || size > 32) { return }
 
         // Update internal read size.
         this.#lastReadSize = size
@@ -673,7 +673,7 @@ class BitBuffer {
      */
     set writePointer(pointer) {
         // Ignore updated pointer if it is out of range.
-        if (pointer < 0 || pointer > this.bitLength ) { return }
+        if (pointer < 0 || pointer > this.bitLength) { return }
 
         // Update internal pointer.
         this.#writePointer = pointer
