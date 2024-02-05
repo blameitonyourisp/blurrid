@@ -20,6 +20,7 @@
 import { nodeResolve } from "@rollup/plugin-node-resolve"
 import terser from "@rollup/plugin-terser"
 import dts from "rollup-plugin-dts"
+import glslify from "rollup-plugin-glslify"
 
 // @@imports-types
 /* eslint-disable no-unused-vars -- Types only used in comments. */
@@ -71,6 +72,23 @@ const configs = [
                 output: [
                     { file: "./build/package/index.js", format: "es" }
                 ]
+            },
+            {
+                input: "./src/package/web.js",
+                output: [
+                    { file: "./build/package/web.js", format: "es" }
+                ],
+                plugins: [
+                    // @ts-expect-error - Glslify is callable, but has no call
+                    // signature supplied provided by exported types.
+                    glslify()
+                ]
+            },
+            {
+                input: "./src/package/shader/worker.js",
+                output: [
+                    { file: "./build/package/worker.js", format: "es" }
+                ]
             }
         ],
         production: [
@@ -79,14 +97,37 @@ const configs = [
             {
                 input: "./src/package/index.js",
                 output: [
-                    { file: "./dist/package/index.js", format: "es" },
-                    { file: "./dist/package/index.cjs", format: "cjs" }
+                    { file: "./dist/package/index.js", format: "es" }
+                ],
+                plugins: [
+                    // @ts-expect-error - Terser is callable, but has no call
+                    // signature supplied provided by exported types.
+                    terser({ maxWorkers: 6 })
+                ]
+            },
+            {
+                input: "./src/package/web.js",
+                output: [
+                    { file: "./build/package/web.js", format: "es" }
                 ],
                 plugins: [
                     // @ts-expect-error - Terser is callable, but has no call
                     // signature supplied provided by exported types.
                     terser({ maxWorkers: 6 }),
-                    nodeResolve()
+                    // @ts-expect-error - Glslify is callable, but has no call
+                    // signature supplied provided by exported types.
+                    glslify()
+                ]
+            },
+            {
+                input: "./src/package/shader/worker.js",
+                output: [
+                    { file: "./build/package/worker.js", format: "es" }
+                ],
+                plugins: [
+                    // @ts-expect-error - Terser is callable, but has no call
+                    // signature supplied provided by exported types.
+                    terser({ maxWorkers: 6 })
                 ]
             },
 
