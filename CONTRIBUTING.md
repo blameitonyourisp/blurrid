@@ -1,6 +1,6 @@
 
 <p align="center">
-    <img width="605" src="https://img.shields.io/badge/blameitonyourisp-13-inactive?style=for-the-badge&labelColor=BAC99C&color=779966&logo=data:image/png;base64,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">
+    <img width="605" src="https://img.shields.io/badge/blameitonyourisp-13-inactive?style=for-the-badge&labelColor=BAC99C&color=779966&logo=data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjwhLS0gQ3JlYXRlZCB3aXRoIFZlY3Rvcm5hdG9yIChodHRwOi8vdmVjdG9ybmF0b3IuaW8vKSAtLT4KPHN2ZyBoZWlnaHQ9IjEwMCUiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgc3R5bGU9ImZpbGwtcnVsZTpub256ZXJvO2NsaXAtcnVsZTpldmVub2RkO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDsiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgd2lkdGg9IjEwMCUiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6dmVjdG9ybmF0b3I9Imh0dHA6Ly92ZWN0b3JuYXRvci5pbyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgo8ZGVmcy8+CjxnIGlkPSJMYXllci01IiB2ZWN0b3JuYXRvcjpsYXllck5hbWU9IkxheWVyIDUiPgo8cGF0aCBkPSJNMTc1IDBMODQ5IDBDOTQ1LjY1IDAgMTAyNCA3OC4zNTAyIDEwMjQgMTc1TDEwMjQgODQ5QzEwMjQgOTQ1LjY1IDk0NS42NSAxMDI0IDg0OSAxMDI0TDE3NSAxMDI0Qzc4LjM1MDIgMTAyNCAwIDk0NS42NSAwIDg0OUwwIDE3NUMwIDc4LjM1MDIgNzguMzUwMiAwIDE3NSAwWiIgZmlsbD0iI2U5ZTdlMiIgZmlsbC1ydWxlPSJub256ZXJvIiBvcGFjaXR5PSIwIiBzdHJva2U9Im5vbmUiLz4KPHBhdGggZD0iTTMwMiAzODJDMzAyIDQzNy4yMjggMjU3LjIyOCA0ODIgMjAyIDQ4MkwyMDIgNjQyQzIzNy40MzcgNjQyIDI3MS4yMTYgNjM0Ljg2OSAzMDIgNjIyLjAzMUwzMDIgOTUyTDQ2MiA5NTJMNDYyIDM4MkwzMDIgMzgyWiIgZmlsbD0iIzZmNGRiMyIgZmlsbC1ydWxlPSJub256ZXJvIiBvcGFjaXR5PSIxIiBzdHJva2U9Im5vbmUiLz4KPHBhdGggZD0iTTU2MiA3MkM0MTguNDA2IDcxLjk5OTkgMzAyIDE4OC40MDUgMzAyIDMzMkw0NjIgMzMyQzQ2MiAyNzYuNzcyIDUwNi43NzIgMjMyIDU2MiAyMzJDNjE3LjIyOCAyMzIgNjYyIDI3Ni43NzIgNjYyIDMzMkM2NjIgMzg3LjIyOCA2MTcuMjI4IDQzMiA1NjIgNDMyTDUxMiA0MzJMNTEyIDU5Mkw1NjIgNTkyQzYxNy4yMjggNTkyIDY2MiA2MzYuNzcyIDY2MiA2OTJDNjYyIDc0Ny4yMjggNjE3LjIyOCA3OTIgNTYyIDc5Mkw1MTIgNzkyTDUxMiA5NTJMNTYyIDk1MkM3MDUuNTk0IDk1MiA4MjIgODM1LjU5NSA4MjIgNjkyQzgyMiA2MjIuMDM2IDc5NC4xMzcgNTU4LjczNiA3NDkuMTg4IDUxMkM3OTQuMTM3IDQ2NS4yNjQgODIyIDQwMS45NjQgODIyIDMzMkM4MjIgMTg4LjQwNiA3MDUuNTk1IDcyIDU2MiA3MloiIGZpbGw9IiM3Nzk5NjYiIGZpbGwtcnVsZT0ibm9uemVybyIgb3BhY2l0eT0iMSIgc3Ryb2tlPSJub25lIi8+CjxwYXRoIGQ9Ik0zMDIgMzgyQzMwMiA0MzcuMjI4IDI1Ny4yMjggNDgyIDIwMiA0ODJMMjAyIDY0MkMzNDUuNTk0IDY0MiA0NjIgNTI1LjU5NCA0NjIgMzgyTDMwMiAzODJaIiBmaWxsPSIjNGYzYTc4IiBmaWxsLXJ1bGU9Im5vbnplcm8iIG9wYWNpdHk9IjEiIHN0cm9rZT0ibm9uZSIvPgo8cGF0aCBkPSJNNDYyIDMzMkM0NjIgMjc2Ljc3MiA1MDYuNzcyIDIzMiA1NjIgMjMyTDU2MiA3MkM0MTguNDA2IDcxLjk5OTkgMzAyIDE4OC40MDYgMzAyIDMzMkw0NjIgMzMyWiIgZmlsbD0iIzQxNTg0MSIgZmlsbC1ydWxlPSJub256ZXJvIiBvcGFjaXR5PSIxIiBzdHJva2U9Im5vbmUiLz4KPC9nPgo8L3N2Zz4K">
 </p>
 
 # Contributing
@@ -44,6 +44,7 @@ Thank you for reading the contributing guidelines for this repository. Since thi
     - [Update](#update)
     - [Disable](#disable)
 - [Releasing](#releasing)
+    - [Indexing](#indexing)
 
 ## Pull Requests
 
@@ -374,6 +375,23 @@ The `./admin/scripts` subdirectory contains all custom scripts written by the ma
 
 The `./admin/templates` subdirectory contains all templates used by plop for automatic generation of new scripts or documentation files, and by the changelog generator to render new release note prompts. Note that template files are all saved as `.hbs` (handlebars) files for syntax highlighting purposes in vscode, although some of the template files may be limited to the simpler mustache syntax (this applies mainly to the templates used by the changelog generator).
 
+#### admin/web
+
+The `./admin/web` subdirectory contains files which should be copied to the `./dist/web` directory when building a site using the [appropriate build command](#npm-scripts). Primarily this directory contains public record files including a `CNAME` record file (required for `gh-pages` to correctly set custom domain when deploying site to [github pages](https://pages.github.com/)), a `robots.txt` file, and a `sitemap.xml` file, both of which help search engines to crawl the generated site. For references on how to write and update these files, please see the following links:
+
+- `CNAME` records references:
+    - [Google](https://support.google.com/a/answer/112037?hl=en#zippy=%2Cset-up-cname-records-now)
+    - [Cloudflare](https://www.cloudflare.com/en-gb/learning/dns/dns-records/dns-cname-record/)
+- `robots.txt` references:
+    - [Google](https://developers.google.com/search/docs/crawling-indexing/robots/intro)
+    - [Cloudflare](https://www.cloudflare.com/en-gb/learning/bots/what-is-robots-txt/)
+    - [robotstxt.org](https://www.robotstxt.org/) (also includes a `robots.txt` file checker)
+    - [Yoast blog guide](https://yoast.com/ultimate-guide-robots-txt/)
+- `sitemap.xml` references:
+    - [Sitemap protocol](https://www.sitemaps.org/protocol.html)
+    - [Google](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap)
+    - [Sitemap generator](https://www.xml-sitemaps.com/)
+
 ### build
 
 The `./build` directory is included in this repository by use of a `.gitkeep` file, otherwise the contents of the `./build` directory are untracked by the `.gitignore` file. The `./build` directory is reserved for development build outputs. The relevant [npm build scripts](#npm-scripts) will output packaged scripts etc. to subdirectories in the `./build` directory. These subdirectories will correspond to the subdirectories in the `./src` directory (i.e. `./build/bin`, `./build/package`, and `./build/web`). Auto generated JSDoc documentation output will also be found in the `./build` directory in the `./build/docs` subdirectory. Please see the [src section](#src) for more information on the purpose of each subdirectory.
@@ -637,13 +655,17 @@ In order to ensure that versions of software released by this repository are rel
     3. Run `npm run test:package` to only run package source file tests
     4. Run `npm run test:web` to only run static web source file tests
 2. Build production bundles of source files:
-    1. Build type declarations with typescript by running `npm run types:declaration` (note that this command is also run automatically when building the package)
-    2. Build production bundles of the binary, package, and or web source files by running the appropriate build command:
+    1. If required, update public record files found at `./admin/web`:
+        1. Update URLs in public record files to ensure the correct domain and/or subdomain is used
+        2. Update `sitemap.xml` with new pages added etc., optionally use a [sitemap generator](https://www.xml-sitemaps.com/) to create a new sitemap
+        3. See the [admin/web](#adminweb) section for more information on updating public record files
+    2. Build type declarations with typescript by running `npm run types:declaration` (note that this command is also run automatically when building the package)
+    3. Build production bundles of the binary, package, and or web source files by running the appropriate build command:
         1. Run `npm run build:prod` to build a production bundle with all available source files
         2. Run `npm run build:prod:bin` to build only the CLI source files
         3. Run `npm run build:prod:package` to build only the released package source files
         4. Run `npm run build:prod:web` to build only the static web source files
-    3. If required, deploy static site to `gh-pages` by running `npm run admin:deploy`
+    4. If required, deploy static site to `gh-pages` by running `npm run admin:deploy`
 3. Update `package.json` file:
     1. Do *not* update the version field as this will be updated by using the `npm version <semver>` command
     2. Update [bin object](https://docs.npmjs.com/cli/v9/configuring-npm/package-json#bin) with any changed executable names or paths
@@ -664,6 +686,18 @@ In order to ensure that versions of software released by this repository are rel
     1. Add the new version number of the package to the package version dropdown
     2. Add any new LTS version of node released since the last version to the node LTS version dropdown
 8. Commit all changes in the working tree, or stash uncommitted changes such that the working tree is clean prior to updating the version using the `npm version <semver>` command
-9.  Update version by running `npm version <semver>` where `<semver>` is either `major`, `minor`, or `patch` depending on the changes made
+9.  Update version by running `npm version <semver>` where `<semver>` is either `major`, `minor`, or `patch` depending on the changes made [^2]
 
-Note that the npm `preversion` script is configured to run the `build:prod` script in case the build step is forgotten, the `.npmrc` file is configured to add a git tag to the generated new version commit, and the npm `postversion` script is configured to push the new commit and tag to the remote repository. For more information on the `npm version` command, please see [this cheatsheet](https://michaelcurrin.github.io/dev-cheatsheets/cheatsheets/package-managers/javascript/npm/commands/version.html).
+[^2]: Note that the npm `preversion` script is configured to run the `build:prod` script in case the build step is forgotten, the `.npmrc` file is configured to add a git tag to the generated new version commit, and the npm `postversion` script is configured to push the new commit and tag to the remote repository. For more information on the `npm version` command, please see [this cheatsheet](https://michaelcurrin.github.io/dev-cheatsheets/cheatsheets/package-managers/javascript/npm/commands/version.html).
+
+### Indexing
+
+When publishing a new site, it may be useful to help search engine crawlers by explicitly submitting your `sitemap.xml` file for faster indexing. Note that this is step is *not* required for a site to be indexed, as search engines will usually find any given site organically unless the site's `robots.txt` file prevents this. To find out which page(s) are currently indexed by [google](https://www.google.com/) for a given site, simply search for `site:<url>`. This query will return all pages, posts etc. associated with that url which are currently indexed on [google](https://www.google.com/).
+
+For information on how to submit your `sitemap.xml` file for indexing on [google](https://www.google.com/) or different search engines, please see the following resources:
+
+- [Google sitemap documentation](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap)
+- [Yoast blog guide](https://yoast.com/help/submit-sitemap-search-engines/) (includes different search engines)
+- [Themeisle blog guide](https://themeisle.com/blog/submit-website-to-google/)
+
+Note that each subdomain of a given domain should have its own `sitemap.xml` file and associated public records. As discussed in these forum threads ([webmaster stack exchange](https://webmasters.stackexchange.com/questions/82687/sitemaps-one-per-subdomain-or-one-for-the-base-domain) and [google webmasters](https://support.google.com/webmasters/thread/4795511/how-to-add-sub-domain-sitemaps-into-root-domain-sitemap?hl=en)), search engines generally consider subdomains as being standalone sites, and all URLs listed in a `sitemap.xml` file *must* reside on the same host as the given `sitemap.xml` file (i.e. a sitemap at `https://www.example.com/sitemap.xml` cannot include URLs from `https://subdomain.example.com`). Additionally, modern search engines are usually capable of inferring from content which subdomains should be indexed as independent sites, and which subdomains should be associated with the main domain.

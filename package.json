@@ -3,10 +3,11 @@
     "version": "0.0.1",
     "description": "Generate and render blurred placeholders for lazy loaded images.",
     "keywords": [
-        "lazy-loading",
         "image-optimization",
         "dct",
-        "image-blur"
+        "image-blur",
+        "webgl",
+        "lazy-loading"
     ],
     "homepage": "https://github.com/blameitonyourisp/blurrid#readme",
     "repository": {
@@ -23,6 +24,7 @@
     "main": "./dist/package/index.js",
     "exports": {
         ".": "./dist/package/index.js",
+        "./web": "./dist/package/web.js",
         "./COMMON_JS": "./dist/package/index.cjs"
     },
     "types": "./dist/package/index.d.ts",
@@ -32,7 +34,10 @@
     },
     "targets": {
         "main": false,
-        "types": false
+        "types": false,
+        "module": {
+            "optimize": true
+        }
     },
     "browserslist": "> 0.5%, last 2 versions, not dead",
     "scripts": {
@@ -48,7 +53,7 @@
         "build:prod": "npm run build:prod:bin && npm run build:prod:package && npm run build:prod:web",
         "build:prod:bin": "rollup --config ./admin/config/rollup.config.js",
         "build:prod:package": "npm run types:declaration && rollup --config ./admin/config/rollup.config.js",
-        "build:prod:web": "parcel build ./src/web/pages/**/**/*.html --dist-dir ./dist/web --cache-dir ./.cache/parcel",
+        "build:prod:web": "rm -rf ./dist/web && parcel build ./src/pages/**/**/*.html --dist-dir ./dist/web --cache-dir ./.cache/parcel-prod && cp -r ./admin/web/. ./dist/web",
         "docs": "npm run docs:jsdoc",
         "docs:changelog": "node ./admin/scripts/changelog.js",
         "docs:jsdoc": "jsdoc --configure ./admin/config/jsdoc.config.json",
@@ -60,7 +65,7 @@
         "preversion": "npm run build:prod",
         "start": "npm run start:web",
         "start:docs": "npm run docs:jsdoc && http-server ./build/jsdoc & nodemon --watch src --exec 'npm run docs:jsdoc'",
-        "start:web": "parcel ./src/web/pages/**/**/*.html --dist-dir ./build/web --cache-dir ./.cache/parcel",
+        "start:web": "parcel ./src/web/pages/**/**/*.html --dist-dir ./build/web --cache-dir ./.cache/parcel-dev",
         "test": "npm run test:bin && npm run test:package && npm run test:web",
         "test:bin": "jest --config ./admin/config/jest.config.cjs --passWithNoTests",
         "test:package": "jest --config ./admin/config/jest.config.cjs --passWithNoTests",
@@ -72,15 +77,14 @@
         "watch:bin": "nodemon --watch ./src/bin --exec 'npm run build:dev:bin'",
         "watch:package": "nodemon --watch .src/package --exec 'npm run build:dev:package'"
     },
-    "dependencies": {},
     "devDependencies": {
         "@13ms/funky": "^1.0.1",
         "@13ms/submodule": "^1.2.1",
         "@babel/plugin-transform-modules-commonjs": "^7.22.5",
         "@babel/preset-env": "^7.22.5",
         "@jest/globals": "^29.5.0",
+        "@parcel/transformer-glsl": "^2.10.2",
         "@rollup/plugin-babel": "^6.0.3",
-        "@rollup/plugin-commonjs": "^25.0.2",
         "@rollup/plugin-node-resolve": "^15.1.0",
         "@rollup/plugin-terser": "^0.4.3",
         "@types/jest": "^29.5.5",
@@ -101,6 +105,7 @@
         "plop": "^4.0.0",
         "rollup": "^4.3.0",
         "rollup-plugin-dts": "^6.0.2",
+        "rollup-plugin-glslify": "^1.3.1",
         "rollup-plugin-postcss": "^4.0.2",
         "sharp": "^0.32.6",
         "typescript": "^5.1.6",
