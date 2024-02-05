@@ -24,8 +24,7 @@
     "main": "./dist/package/index.js",
     "exports": {
         ".": "./dist/package/index.js",
-        "./web": "./dist/package/web.js",
-        "./COMMON_JS": "./dist/package/index.cjs"
+        "./web": "./dist/package/web.js"
     },
     "types": "./dist/package/index.d.ts",
     "engines": {
