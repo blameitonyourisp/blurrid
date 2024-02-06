@@ -1,4 +1,4 @@
-// Copyright (c) 2023 James Reid. All rights reserved.
+// Copyright (c) 2024 James Reid. All rights reserved.
 //
 // This source code file is licensed under the terms of the MIT license, a copy
 // of which may be found in the LICENSE.md file in the root of this repository.
@@ -22,4 +22,4 @@
 // @@exports
 export * from "./BitBuffer.js"
 export * from "./decorate-cli.js"
-export * from "./image-loader.js"
+export * from "./WorkerManager.js"

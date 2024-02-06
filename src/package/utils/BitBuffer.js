@@ -1,4 +1,4 @@
-// Copyright (c) 2023 James Reid. All rights reserved.
+// Copyright (c) 2024 James Reid. All rights reserved.
 //
 // This source code file is licensed under the terms of the MIT license, a copy
 // of which may be found in the LICENSE.md file in the root of this repository.
@@ -439,7 +439,7 @@ class BitBuffer {
      * Create object containing
      */
     #writeable() {
-        // 
+        //
         const tracer = { writeable: true, offset: this.#writePointer }
 
         /**
@@ -709,7 +709,7 @@ class BitBuffer {
      * @returns {BitBuffer} Decoded BitBuffer instance.
      */
     static from(string) {
-        //
+        // Throw error if input string not correctly encoded.
         if (!string.match(/^[A-Za-z0-9\-_]*$/)) {
             throw new DecoratedError({
                 name: "BitBufferError",
@@ -718,8 +718,11 @@ class BitBuffer {
             })
         }
 
-        //
+        // Create new BitBuffer instance based on length of input string.
         const buffer = new BitBuffer({ size: Math.ceil(string.length * 3 / 4) })
+
+        // Split input string into 4-character segments, convert each segment
+        // into 24-bit unsigned integer, and write to new BitBuffer instance.
         const regex = /[A-Za-z0-9\-_]{1,4}/g
         for (const match of string.match(regex) || []) {
             const uint24 = BitBuffer.#b64ToUint24(match.padEnd(4, "A"))
