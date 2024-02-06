@@ -1,4 +1,4 @@
-// Copyright (c) 2023 James Reid. All rights reserved.
+// Copyright (c) 2024 James Reid. All rights reserved.
 //
 // This source code file is licensed under the terms of the MIT license, a copy
 // of which may be found in the LICENSE.md file in the root of this repository.
@@ -51,7 +51,8 @@ const clamp = (number, minimum = 0, maximum = 255, isInt = true) => {
  * @param {number} red - Red value of color between 0 and 255.
  * @param {number} green - Green value of color between 0 and 255.
  * @param {number} blue - Blue value of color between 0 and 255.
- * @returns {{y:number, cB:number, cR:number}} Color converted to YCbCr.
+ * @returns {{luma:number, chromaBlue:number, chromaRed:number}} Color converted
+ *      to YCbCr.
  */
 const rgbToYCbCr = (red, green, blue) => {
     // Clamp input channels to values between 0 and 255.
@@ -61,10 +62,36 @@ const rgbToYCbCr = (red, green, blue) => {
 
     // Return converted colorspace values using coefficients rounded to 2dp.
     return {
-        y: clamp(0.30 * red + 0.59 * green + 0.11 * blue),
-        cB: clamp(128 - 0.17 * red - 0.33 * green + 0.50 * blue),
-        cR: clamp(128 + 0.50 * red - 0.42 * green - 0.08 * blue)
+        luma: clamp(0.30 * red + 0.59 * green + 0.11 * blue),
+        chromaBlue: clamp(128 - 0.17 * red - 0.33 * green + 0.50 * blue),
+        chromaRed: clamp(128 + 0.50 * red - 0.42 * green - 0.08 * blue)
     }
+}
+
+/**
+ * Convert 4-channel rgba (red, green, blue, alpha) buffer into a 3-channel
+ * YCbCr (luma, chroma blue, chroma red) flat data array.
+ *
+ * @param {Buffer} rgbaBuffer - 4-channel, rgba formatted buffer.
+ * @returns 3-channel, YCbCr formatted flat data array.
+ */
+const rgbaBufferToYCbCrArray = rgbaBuffer => {
+    // Initialise flat output data array.
+    const yCbCrArray = []
+
+    // Loop over input data array, fetching the luma, chroma blue, and chroma
+    // red values from the red, green, and blue input data values. Skip alpha
+    // channel, and push converted pixel data to the output array.
+    for (let i = 0; i < rgbaBuffer.length; i += 4) {
+        const { luma, chromaBlue, chromaRed } = rgbToYCbCr(
+            rgbaBuffer[i],
+            rgbaBuffer[i + 1],
+            rgbaBuffer[i + 2]
+        )
+        yCbCrArray.push(luma, chromaBlue, chromaRed)
+    }
+
+    return yCbCrArray
 }
 
 /**
@@ -77,7 +104,7 @@ const rgbToYCbCr = (red, green, blue) => {
  * @param {number} luma - Luma value of color between 0 and 255.
  * @param {number} chromaBlue - Chroma blue value of color between 0 and 255.
  * @param {number} chromaRed - Chroma red value of color between 0 and 255.
- * @returns {{r:number, g:number, b:number}} Color converted to rgb.
+ * @returns {{red:number, green:number, blue:number}} Color converted to rgb.
  */
 const yCbCrToRgb = (luma, chromaBlue, chromaRed) => {
     // Clamp input channels to values between 0 and 255.
@@ -91,11 +118,37 @@ const yCbCrToRgb = (luma, chromaBlue, chromaRed) => {
 
     // Return converted colorspace values using coefficients rounded to 2dp.
     return {
-        r: clamp(luma + 1.40 * chromaRed),
-        g: clamp(luma - 0.34 * chromaBlue - 0.71 * chromaRed),
-        b: clamp(luma + 1.77 * chromaBlue)
+        red: clamp(luma + 1.40 * chromaRed),
+        green: clamp(luma - 0.34 * chromaBlue - 0.71 * chromaRed),
+        blue: clamp(luma + 1.77 * chromaBlue)
     }
 }
 
+/**
+ * Convert 3-channel YCbCr (luma, chroma blue, chroma red) flat data array into
+ * 4-channel rgba (red, green, blue, alpha) flat data array.
+ *
+ * @param {number[]} yCbCrArray - 3-channel, YCbCr formatted flat data array.
+ * @returns 4-channel, rgba formatted flat data array.
+ */
+const yCbCrArrayToRgbaArray = (yCbCrArray, alpha = 255) => {
+    // Initialise flat output data array.
+    const rgbaArray = []
+
+    // Loop over input data array, fetching the red, green, and blue values from
+    // the luma, chroma blue, and chroma red input data values. Push converted
+    // pixel data to the output array with extra alpha channel.
+    for (let i = 0; i < yCbCrArray.length; i += 3) {
+        const { red, green, blue } = yCbCrToRgb(
+            yCbCrArray[i],
+            yCbCrArray[i + 1],
+            yCbCrArray[i + 2]
+        )
+        rgbaArray.push(red, green, blue, alpha)
+    }
+
+    return rgbaArray
+}
+
 // @@exports
-export { rgbToYCbCr, yCbCrToRgb }
+export { rgbToYCbCr, rgbaBufferToYCbCrArray, yCbCrToRgb, yCbCrArrayToRgbaArray }
