@@ -108,7 +108,7 @@ const configs = [
             {
                 input: "./src/package/web.js",
                 output: [
-                    { file: "./build/package/web.js", format: "es" }
+                    { file: "./dist/package/web.js", format: "es" }
                 ],
                 plugins: [
                     // @ts-expect-error - Terser is callable, but has no call
@@ -122,7 +122,7 @@ const configs = [
             {
                 input: "./src/package/shader/worker.js",
                 output: [
-                    { file: "./build/package/worker.js", format: "es" }
+                    { file: "./dist/package/worker.js", format: "es" }
                 ],
                 plugins: [
                     // @ts-expect-error - Terser is callable, but has no call
