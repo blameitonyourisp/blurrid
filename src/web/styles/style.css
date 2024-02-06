@@ -1,0 +1,83 @@
+/* Base CSS reset, font and color variable declarations etc.. */
+@import url("./base/reset.css");
+@import url("./base/colors.css");
+@import url("./base/fonts.css");
+
+/* Reusable component styling imports. */
+@import url("./components/card.css");
+
+/* Global styles. */
+body {
+    background-color: var(--clr-neutral-200);
+    color: var(--clr-neutral-800);
+    font-family: var(--ff-primary);
+}
+
+.page-item {
+    margin: auto;
+    padding: 3rem;
+}
+.page-item p {
+    max-width: 120ch;
+}
+
+.item-title::after {
+    border-bottom: 1px solid var(--clr-neutral-900);
+    content: "";
+    display: block;
+    width:100%; 
+}
+
+.gallery-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.gallery-item {
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.gallery-item img {
+    max-height: 50vh;
+    object-fit: contain;
+    width: 70vw;
+}
+.gallery-item figcaption {
+    font-size: 0.75em;
+    margin-top: 0.5em;
+    text-align: center;
+    text-wrap: balance;
+}
+
+.note {
+    align-items: center;
+    background-color: var(--clr-primary-300);
+    border: 1px solid var(--clr-primary-500);
+    border-left: 0.5em solid var(--clr-primary-700);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    margin: 1rem auto 1rem auto;
+    padding: 1rem;
+}
+.note svg {
+    width: 3rem;
+    margin-right: 1rem;
+}
+
+@media (min-width: 860px) {
+    .page-item,
+    .gallery {
+        width: min(70vw, 70rem);
+    }
+
+    .gallery-item img {
+        max-height: 40vh;
+        width: min(25vw, 30rem);
+    }
+}
