@@ -33,10 +33,10 @@
     },
     "targets": {
         "main": false,
-        "types": false,
-        "module": {
-            "optimize": true
-        }
+        "types": false
+    },
+    "@parcel/resolver-default": {
+        "packageExports": true
     },
     "browserslist": "> 0.5%, last 2 versions, not dead",
     "scripts": {
