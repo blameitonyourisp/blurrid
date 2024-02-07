@@ -18,17 +18,34 @@
 // @@no-imports
 
 // @@body
+/**
+ * @callback workerCb
+ * @returns {Worker}
+ */
+
+/**
+ * @callback workerEventCb
+ * @param {any} event
+ * @returns {void}
+ */
+
+/**
+ * @typedef {object} EnqueuedWorker
+ * @property {any} message
+ * @property {workerEventCb} callback
+ */
+
 // note that shared workers are not possible due to not being currently
 // available in chrome for android https://developer.mozilla.org/en-US/docs/Web/API/SharedWorker @no-wrap
 class WorkerManager {
-    #queue = /** @type {{message:any, callback:(event:any)=>void}[]} */ ([])
+    #queue = /** @type {EnqueuedWorker[]} */ ([])
     #workers = /** @type {Map.<Worker, number>} */ (new Map())
     #instantiateWorker
     #limit
 
     /**
      *
-     * @param {()=>Worker} callback
+     * @param {workerCb} callback
      * @param {object} obj
      * @param {number} [obj.limit]
      */
@@ -51,7 +68,7 @@ class WorkerManager {
      *
      * @param {Worker} worker
      * @param {any} message
-     * @param {(event:any)=>void} callback
+     * @param {workerEventCb} callback
      */
     postWorker(worker, message, callback) {
         this.#workers.set(worker, NaN)
@@ -65,7 +82,7 @@ class WorkerManager {
     /**
      *
      * @param {any} message
-     * @param {(event:any)=>void} callback
+     * @param {workerEventCb} callback
      */
     enqueue(message, callback) {
         let /** @type {Worker|undefined} */ worker

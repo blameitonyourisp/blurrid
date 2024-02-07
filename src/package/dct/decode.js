@@ -63,7 +63,7 @@ const decodePixelArray3D = (array3D, metadata) => {
  * @param {number[][]} array2D
  * @param {{x:number, y:number}} point
  * @param {BlurridMetadata} metadata
- * @returns
+ * @returns {number}
  */
 const decodePixelArray2D = (array2D, point, metadata) => {
     const dctRow = []

@@ -29,6 +29,7 @@
  * @todo allow loading of images to encode from web url
  * @todo add parser which will automatically encode and convert images in an
  *      html file into blurrid image components
+ * @todo move ./utils/WorkerManager callbacks and types to typedefs dir
  */
 
 /**

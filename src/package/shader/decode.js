@@ -74,7 +74,7 @@ const getDataUrl = decoder => {
  *
  * @param {number[][]} array2D
  * @param {BlurridMetadata} metadata
- * @returns
+ * @returns {number[]}
  */
 const normalizeDctSamples = (array2D, metadata) => {
     const length = /** @type {number} */ (metadata.sample.max)

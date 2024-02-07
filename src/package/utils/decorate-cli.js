@@ -68,10 +68,10 @@ class DecoratedError extends Error {
  * @summary Return original string decorated with control characters.
  * @param {string} string - String to be decorated.
  * @param {object} options - Options object.
- * @param {string[]=} options.modifiers - String array of modifiers/control
+ * @param {string[]} [options.modifiers] - String array of modifiers/control
  *      characters to apply input string.
- * @param {number=} options.tabs - Number of tab indents to include on string.
- * @param {number=} options.tabSize - Number of spaces for each tab.
+ * @param {number} [options.tabs] - Number of tab indents to include on string.
+ * @param {number} [options.tabSize] - Number of spaces for each tab.
  * @returns {string} Original string decorated with control characters.
  */
 const decorate = (string, { modifiers = [], tabs = 0, tabSize = 4 } = {}) => {

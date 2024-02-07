@@ -60,11 +60,11 @@ class BlurridEncoder {
      * dct coefficients.
      *
      * @param {object} obj - Object destructured argument.
-     * @param {number} [obj.length] - Desired length of encoded string.
-     * @param {string} [obj.subsampling] - Chroma subsampling string of the form
-     *      "Y:Cb:Cr" where Y, Cb, Cr are all 3-bit numbers from 0-7 inclusive,
-     *      corresponding to the sampling rates of luma, chroma blue and chroma
-     *      red dct coefficients in the encoded string.
+     * @param {number} [obj.length=64] - Desired length of encoded string.
+     * @param {string} [obj.subsampling="4:2:2"] - Chroma subsampling string of
+     *      the form "Y:Cb:Cr" where Y, Cb, Cr are all 3-bit numbers from 0-7
+     *      inclusive, corresponding to the sampling rates of luma, chroma blue
+     *      and chroma red dct coefficients in the encoded string.
      * @returns {string}
      */
     toString({ length = 64, subsampling = "4:2:2" } = {}) {
@@ -127,7 +127,7 @@ class BlurridEncoder {
     /**
      *
      * @param {SubsampleSelector} subsampleSelector
-     * @returns
+     * @returns {Generator}
      */
     #dctConsumer(subsampleSelector) {
         const yCbCrArray = rgbaBufferToYCbCrArray(this.#buffer)
