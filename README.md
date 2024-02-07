@@ -164,34 +164,85 @@ Please see the [basic usage](#basic-usage) section above for information on gett
 
 ### Encoding Options
 
-- node encoding options
+Various options are available for configuring both the encoded Blurrid string, and the downsized sample image which it encodes. Please see the following code block for a fragment of the type declaration for this package. The fragment shows the available parameters for the classes, methods and functions used to produce an encoded Blurrid string, and their associated jsdoc type annotations/comments:
 
 ```typescript
 declare class BlurridEncoder {
     /**
+     * Create encoder instance from downsized image sample.
      *
-     * @param {object} obj
-     * @param {Buffer} obj.buffer
-     * @param {number} obj.width
-     * @param {number} obj.height
+     * @param {object} obj - Object destructured argument.
+     * @param {Buffer} obj.buffer - Buffer of flat, 4-channel rgba pixel data.
+     * @param {number} obj.width - Width of downsized sample image for blur.
+     * @param {number} obj.height - Height of downsized sample image for blur.
      */
     constructor({ buffer, width, height }: {
-        buffer: Buffer
-        width: number
-        height: number
-    })
-
+        buffer: Buffer;
+        width: number;
+        height: number;
+    });
     /**
-     * 
-     * @param {object} obj
-     * @param {number} obj.length
-     * @param {string} obj.subsampling
+     * Encode downsized sample image into serialized string containing Blurrid
+     * dct coefficients.
+     *
+     * @param {object} obj - Object destructured argument.
+     * @param {number} [obj.length=64] - Desired length of encoded string.
+     * @param {string} [obj.subsampling="4:2:2"] - Chroma subsampling string of
+     *      the form "Y:Cb:Cr" where Y, Cb, Cr are all 3-bit numbers from 0-7
+     *      inclusive, corresponding to the sampling rates of luma, chroma blue
+     *      and chroma red dct coefficients in the encoded string.
+     * @returns {string}
      */
     toString({ length, subsampling }?: {
-        length?: number | undefined
-        subsampling?: string | undefined
-    }): string
+        length?: number | undefined;
+        subsampling?: string | undefined;
+    }): string;
+    #private;
 }
+
+/**
+ * Load image from file, returning buffer of flat, 4-channel rgba pixel data,
+ * and metadata pertaining to the image which is required for.
+ *
+ * @param {string} path - Relative path to image from point of execution.
+ * @param {number} [samples=16] - Maximum dimension of downsized sample image in
+ *      any direction. Note that, due to max uniform limits in webgl fragment
+ *      shaders, sample sizes greater than 16 will prevent a blur from being
+ *      created using the webgl canvas. In this case the web component will
+ *      set the image loading to `eager`, or will use web workers as a fallback
+ *      if available to render the blur.
+ * @returns {Promise.<{buffer:Buffer, width:number, height:number}>} Data buffer
+ *      and image metadata.
+ */
+declare function loadImage(path: string, samples?: number | undefined): Promise<{
+    buffer: Buffer;
+    width: number;
+    height: number;
+}>;
+```
+
+See the following list for further information regarding choosing appropriate values for the available parameters shown in the code block above:
+
+- Notes on `toString` method `length` object destructured parameter:
+    - Longer length will preserve more of the original blur data, and therefore produce a better decoded blur placeholder
+    - Longer length will incur higher bandwidth, and marginally higher compute time when decoding
+    - Generally the default value of `64` provides a good balance between string length and blur quality
+- Notes on `toString` method `subsampling` object destructured parameter:
+    - Generally both chroma values should be the same
+    - Higher relative luma values correspond to preservation of more object detail
+    - Higher relative chroma values correspond to preservation of colour
+    - Generally preserving colour is preferable for a blur placeholder where most discernable details will be lost anyway, therefore a chroma subsampling value of between `4:2:2` and `4:4:4` is recommended
+    - See [here](https://en.wikipedia.org/wiki/Chroma_subsampling) for more information on chroma subsampling
+
+Finally, see the following code block for an example using all of the available parameters as described above to configure a specific Blurrid string. Note that *all* of the data required to decode strings is encoded within the string itself, therefore it is possible to have strings with different encoding configurations being rendered on the same site without any need for further changes.
+
+```javascript
+
+// Instantiate encoder using a loaded image with a custom downsized max size.
+const encoder = new BlurridEncoder(await loadImage("./path/to/image", 8))
+
+// Encode string using a custom length and subsampling string.
+const string = encoder.toString({ length: 128, subsampling: "4:3:3" })
 ```
 
 ### Web Component Options
