@@ -44,6 +44,8 @@ class BlurridImage extends HTMLImageElement {
     blur() {
         const maxSamples = this.decoder.metadata.sample.max
         if (!window.WebGLRenderingContext || maxSamples > 16) {
+            console.warn(`<WARNING> BlurridImage:
+WebGL rendering context unavailable or too many uniforms, try worker fallback`)
             this.dataset.loading = "eager"
         }
         else { this.src = getDataUrl(this.decoder) }
