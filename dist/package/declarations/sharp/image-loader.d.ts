@@ -3,8 +3,8 @@
  * and metadata pertaining to the image which is required for.
  *
  * @param {string} path - Relative path to image from point of execution.
- * @param {number} samples - Maximum dimension of downsized sample image in any
- *      direction. Note that, due to max uniform limits in webgl fragment
+ * @param {number} [samples=16] - Maximum dimension of downsized sample image in
+ *      any direction. Note that, due to max uniform limits in webgl fragment
  *      shaders, sample sizes greater than 16 will prevent a blur from being
  *      created using the webgl canvas. In this case the web component will
  *      set the image loading to `eager`, or will use web workers as a fallback
@@ -12,7 +12,7 @@
  * @returns {Promise.<{buffer:Buffer, width:number, height:number}>} Data buffer
  *      and image metadata.
  */
-export function loadImage(path: string, samples?: number): Promise<{
+export function loadImage(path: string, samples?: number | undefined): Promise<{
     buffer: Buffer;
     width: number;
     height: number;

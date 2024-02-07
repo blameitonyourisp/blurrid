@@ -78,11 +78,11 @@ declare class BlurridEncoder {
      * dct coefficients.
      *
      * @param {object} obj - Object destructured argument.
-     * @param {number} [obj.length] - Desired length of encoded string.
-     * @param {string} [obj.subsampling] - Chroma subsampling string of the form
-     *      "Y:Cb:Cr" where Y, Cb, Cr are all 3-bit numbers from 0-7 inclusive,
-     *      corresponding to the sampling rates of luma, chroma blue and chroma
-     *      red dct coefficients in the encoded string.
+     * @param {number} [obj.length=64] - Desired length of encoded string.
+     * @param {string} [obj.subsampling="4:2:2"] - Chroma subsampling string of
+     *      the form "Y:Cb:Cr" where Y, Cb, Cr are all 3-bit numbers from 0-7
+     *      inclusive, corresponding to the sampling rates of luma, chroma blue
+     *      and chroma red dct coefficients in the encoded string.
      * @returns {string}
      */
     toString({ length, subsampling }?: {
@@ -97,8 +97,8 @@ declare class BlurridEncoder {
  * and metadata pertaining to the image which is required for.
  *
  * @param {string} path - Relative path to image from point of execution.
- * @param {number} samples - Maximum dimension of downsized sample image in any
- *      direction. Note that, due to max uniform limits in webgl fragment
+ * @param {number} [samples=16] - Maximum dimension of downsized sample image in
+ *      any direction. Note that, due to max uniform limits in webgl fragment
  *      shaders, sample sizes greater than 16 will prevent a blur from being
  *      created using the webgl canvas. In this case the web component will
  *      set the image loading to `eager`, or will use web workers as a fallback
@@ -106,7 +106,7 @@ declare class BlurridEncoder {
  * @returns {Promise.<{buffer:Buffer, width:number, height:number}>} Data buffer
  *      and image metadata.
  */
-declare function loadImage(path: string, samples?: number): Promise<{
+declare function loadImage(path: string, samples?: number | undefined): Promise<{
     buffer: Buffer;
     width: number;
     height: number;
