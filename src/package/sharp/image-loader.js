@@ -25,11 +25,16 @@ import { BlurridDecoder } from "../dct/index.js"
 
 // @@body
 /**
- * Load image from file, returning buffer of flat, 3-channel rgb pixel data, and
- * metadata pertaining to the image.
+ * Load image from file, returning buffer of flat, 4-channel rgba pixel data,
+ * and metadata pertaining to the image which is required for.
  *
  * @param {string} path - Relative path to image from point of execution.
- * @param {number} samples - Maximum dimension of image in any direction.
+ * @param {number} samples - Maximum dimension of downsized sample image in any
+ *      direction. Note that, due to max uniform limits in webgl fragment
+ *      shaders, sample sizes greater than 16 will prevent a blur from being
+ *      created using the webgl canvas. In this case the web component will
+ *      set the image loading to `eager`, or will use web workers as a fallback
+ *      if available to render the blur.
  * @returns {Promise.<{buffer:Buffer, width:number, height:number}>} Data buffer
  *      and image metadata.
  */
