@@ -40,7 +40,7 @@ import {
 
 // @@imports-types
 /* eslint-disable no-unused-vars -- Types only used in comments. */
-import { GithubLabel, LabelCliOptions } from "./types/index.js"
+import { CliOption, GithubLabel, LabelCliOptions } from "./types/index.js"
 import { ClientRequest } from "http"
 /* eslint-enable no-unused-vars -- Close disable-enable pair. */
 
@@ -155,7 +155,7 @@ const createLabel = ({ name, color, description }) => {
 const { owner, repo } = getRemote()
 
 // Parse options from cli with appropriate defaults.
-const defaults = {
+const defaults = /** @type {Object.<string,CliOption>} */ ({
     path: {
         name: "path",
         aliases: ["p"],
@@ -180,8 +180,9 @@ const defaults = {
         value: repo,
         description: "Github repository name of remote repository."
     }
-}
-const cli = /** @type {LabelCliOptions} */ (parseCliArguments(defaults))
+})
+const cli = /** @type {LabelCliOptions} */
+    (parseCliArguments("admin:update-labels", defaults))
 
 // Check that git repository exists on github.
 await checkRemote(cli.repoOwner, cli.repoName)
