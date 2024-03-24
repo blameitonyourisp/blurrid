@@ -16,6 +16,7 @@
 // @ts-check
 
 // @@imports-dependencies
+import "@ungap/custom-elements"
 import { BlurridImageWorker } from "../../package/web.js"
 
 // @@imports-module
