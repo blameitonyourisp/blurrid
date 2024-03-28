@@ -23,6 +23,7 @@ This repository is hosted on [github](https://github.com), if you're already rea
     - [Basic Usage](#basic-usage)
         - [Encoding](#encoding)
         - [Web Component](#web-component)
+        - [Polyfills](#polyfills)
 - [Usage](#usage)
     - [Encoding Options](#encoding-options)
     - [Web Component Options](#web-component-options)
@@ -156,6 +157,13 @@ import { BlurridImage } from "@blameitonyourisp/blurrid/web"
 // name used in the html `is` attributes.
 customElements.define("blurrid-image", BlurridImage, { extends: "img" })
 ```
+
+### Polyfills
+
+Unfortunately, at the time of writing this package, not all major browsers natively support custom web components. See [caniuse](https://caniuse.com/?search=web%20components) for more detailed information on which browsers have still not fully implemented custom web components (mainly Safari, particularly Safari for iOS). To provide support for these browsers, please use an appropriate web components polyfill on any page where you intend to use the custom `blurrid-image` web component. See the following list for popular available polyfills:
+
+- [webcomponents](https://www.webcomponents.org/polyfills)
+- [ungap](https://www.npmjs.com/package/@ungap/custom-elements)
 
 ## Usage
 
@@ -339,6 +347,7 @@ If you find a bug or think there is a specific feature that should be added or c
 
 - Support for [picture elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture)
 - Support for encoding images from a url
+- Built-in support for browsers which currently do not fully implement web components
 - Parser to automatically convert `img` elements into `blurrid-image` components, returning a new static html page
 - Integrations for javascript frameworks such as [react](https://react.dev/)
 
